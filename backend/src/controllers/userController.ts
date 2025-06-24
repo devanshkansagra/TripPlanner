@@ -81,7 +81,7 @@ async function getOauthUserInfo(token: string) {
           Authorization: `Bearer ${token}`,
         },
         method: "GET",
-      }
+      },
     );
 
     return await response.json();
