@@ -15,8 +15,20 @@ const UserSchema = new Schema({
   },
   password: {
     type: String,
-    require: true,
+    require: false,
   },
+  authProvider: {
+    type: String,
+    require: false,
+  },
+  accessToken: {
+    type: String,
+    require: false,
+  },
+  refreshToken: {
+    type: String,
+    require: false,
+  }
 });
 
 export const User = model("User", UserSchema);
