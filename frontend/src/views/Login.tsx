@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { login } from "../api/TripPlannerApi";
-export function Login(props: any) {
+export function Login() {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
