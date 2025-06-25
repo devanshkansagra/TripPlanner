@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { User } from "../model/user";
-import { ACCESSS_TOKEN_URI } from "../../constants/constants";
+import { ACCESSS_TOKEN_URI, REDIRECT_URI } from "../constants/constants";
+import { getAuthorizationURL } from "../helpers/getAuthorizationURL";
 
 export async function login(req: Request, res: Response) {
   const { username, password } = req.body;
@@ -35,6 +36,11 @@ export async function signup(req: Request, res: Response) {
 }
 
 export async function googleOAuth(req: Request, res: Response) {
+  const oauthURL = getAuthorizationURL();
+  res.redirect(oauthURL);
+}
+
+export async function googleOAuthCallback(req: Request, res: Response) {
   const { code } = req.query;
   const response = await getGoogleOauthAccessToken(code as string);
 
@@ -64,7 +70,9 @@ export async function googleOAuth(req: Request, res: Response) {
       });
       const response1 = await user.save();
       if (response1) {
-        return res.redirect(`${process.env.ORIGIN}/signup?success=true`);
+        return res.redirect(
+          `${process.env.ORIGIN}/signup?id_token=${accessToken.id_token}`,
+        );
       }
     }
   } catch (error) {

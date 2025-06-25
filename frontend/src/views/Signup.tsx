@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { signup } from "../api/TripPlannerApi";
-import { getAuthorizationURL } from "../helpers/getAuthorizationURL";
 export function Signup() {
   const [fullname, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
-
-  const oauthURL = getAuthorizationURL();
 
   async function handleSubmit(e: any) {
     e.preventDefault();
@@ -87,7 +84,7 @@ export function Signup() {
           type="button"
           className="btn btn-light w-100 mt-2 d-flex align-items-center justify-content-center"
           onClick={() => {
-            window.location.href = oauthURL;
+            window.location.href = `${import.meta.env.VITE_SERVER_ORIGIN}/api/users/auth/google`;
           }}
         >
           <img

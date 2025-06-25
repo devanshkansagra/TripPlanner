@@ -6,12 +6,14 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "lint": "prettier --check src/**/*.{js,jsx,ts,tsx,json,css,md}",
+    "preview": "vite preview",
+    "format": "prettier --write src/**/*.{js,jsx,ts,tsx,json,css,md}"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.7",
+    "prettier": "^3.6.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.2"
