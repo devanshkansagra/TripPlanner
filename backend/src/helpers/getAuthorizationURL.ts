@@ -1,7 +1,7 @@
-import { AUTH_URI, REDIRECT_URI } from "../constants/constants";
+import { AUTH_URI } from "../constants/constants";
 
 export function getAuthorizationURL() {
-  const clientId = process.env.GOOGLE_OAUTH_CLIENT_ID;
+  const clientId = process.env.CLIENT_ID;
 
   const baseURL = AUTH_URI;
   const responseType = "code";

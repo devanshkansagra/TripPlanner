@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { User } from "../model/user";
 import { ACCESSS_TOKEN_URI, REDIRECT_URI } from "../constants/constants";
 import { getAuthorizationURL } from "../helpers/getAuthorizationURL";
+import { generateAuthTokens } from "../helpers/generateAuthTokens";
 
 export async function login(req: Request, res: Response) {
   const { username, password } = req.body;
@@ -26,6 +27,9 @@ export async function signup(req: Request, res: Response) {
     } else {
       const user = new User({ fullname, email, password, username });
       const response = await user.save();
+      const { accessToken, refreshToken, id_token } =
+        await generateAuthTokens(user);
+      console.log(accessToken);
       if (response) {
         res.status(201).send({ message: "New User Created" });
       }
@@ -51,7 +55,7 @@ export async function googleOAuthCallback(req: Request, res: Response) {
     id_token: response?.id_token,
   };
 
-  const userInfo = await getOauthUserInfo(accessToken.token as string);
+  const userInfo = await getOauthUserInfo(accessToken?.token as string);
 
   const username = userInfo.email.split("@")[0];
 
@@ -67,6 +71,7 @@ export async function googleOAuthCallback(req: Request, res: Response) {
         authProvider: "Google",
         accessToken: accessToken?.token,
         refreshToken: accessToken?.refresh_token,
+        id_token: accessToken?.id_token,
       });
       const response1 = await user.save();
       if (response1) {
@@ -104,7 +109,7 @@ async function getGoogleOauthAccessToken(code: string) {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: `code=${code}&client_id=${process.env.GOOGLE_OAUTH_CLIENT_ID}&client_secret=${process.env.GOOGLE_OAUTH_CLIENT_SECRET}&redirect_uri=${process.env.SERVER_URL}/api/users/google-oauth-callback&grant_type=authorization_code`,
+      body: `code=${code}&client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&redirect_uri=${process.env.SERVER_URL}/api/users/google-oauth-callback&grant_type=authorization_code`,
       method: "POST",
     });
 
