@@ -1,7 +1,8 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-const UserSchema = new Schema({
+import { IUser } from "../definitions/IUser";
+const UserSchema = new Schema<IUser>({
   fullname: {
     type: String,
   },
@@ -75,4 +76,4 @@ UserSchema.methods.generateIdToken = async function () {
   );
 };
 
-export const User = model("User", UserSchema);
+export const User = model<IUser>("User", UserSchema);

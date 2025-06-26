@@ -1,4 +1,6 @@
-export async function generateAuthTokens(user: any) {
+import { IUser } from "../definitions/IUser";
+
+export async function generateAuthTokens(user: IUser) {
   user.accessToken = await user.generateAccessToken();
   user.refreshToken = await user.generateRefreshToken();
   user.id_token = await user.generateIdToken();

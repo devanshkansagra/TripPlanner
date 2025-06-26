@@ -29,7 +29,6 @@ export async function signup(req: Request, res: Response) {
       const response = await user.save();
       const { accessToken, refreshToken, id_token } =
         await generateAuthTokens(user);
-      console.log(accessToken);
       if (response) {
         res.status(201).send({ message: "New User Created" });
       }
